@@ -26,6 +26,7 @@ public class Solution {
     }
 }
 
+//http://blog.welkinlan.com/2015/03/31/house-robber-simple-dp/
 //Same method with solution 0, except for this time we can start from any of the house
 class Solution2{
   public int rob(int[] nums) {
