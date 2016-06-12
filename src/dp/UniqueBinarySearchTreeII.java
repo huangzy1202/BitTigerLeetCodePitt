@@ -47,6 +47,9 @@ class Solution1 {
 }
 
 //dp
+//result[i] stores the result until length i. 
+//For the result for length i+1, select the root node j from 0 to i, combine the result from left side and right side. 
+//Note for the right side we have to clone the nodes as the value will be offsetted by j.
 class Solution2 {
     public static List<TreeNode> generateTrees(int n) {
         if(n==0) return new ArrayList<TreeNode>();
