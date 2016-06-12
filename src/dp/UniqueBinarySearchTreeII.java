@@ -25,11 +25,6 @@ class Solution1 {
             return res;
         }
         
-        if(start == end) {
-            res.add(new TreeNode(start));
-            return res;
-        }
-        
         for(int i = start; i <= end; i++) {
             List<TreeNode> left = helper(start, i - 1);
             List<TreeNode> right = helper(i + 1, end);
@@ -81,5 +76,21 @@ class Solution2 {
         node.left = clone(n.left, offset);
         node.right = clone(n.right, offset);
         return node;
+    }
+}
+
+//unique binary search trees, return the number of trees
+class Solution0{
+    public int numTrees(int n) {
+        int[] res = new int[n+1];
+        res[0] = 1;
+        res[1] = 1;
+        
+        for(int i = 2; i <= n; i++) {
+            for(int j = 1; j <=i; j++) {
+                res[i] +=res[j-1]*res[i-j];
+            }
+        }
+        return res[n];
     }
 }
