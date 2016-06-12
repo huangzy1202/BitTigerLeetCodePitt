@@ -1,28 +1,24 @@
 public class Solution {
-    Map<Integer,Integer> amountDict = new HashMap<Integer,Integer>();
-
-    public int coinChange(int[] coins, int amount) {
-        if(amount==0)
-            return 0;
-
-        if(amountDict.containsKey(amount))
-            return amountDict.get(amount);
-
-        int n = amount+1;
-
-        for(int coin : coins) {
-            int curr = 0;
-            if (amount >= coin) {
-                int next = coinChange(coins, amount-coin);
-                if(next >= 0)
-                    curr = 1+next;
-            }
-            if(curr > 0)
-                n = Math.min(n,curr);
-        }
-        int finalCount = (n==amount+1) ? -1 : n;
-        amountDict.put(amount,finalCount);
-        return finalCount;
-    }
+        public int coinChange(int[] coins, int amount) {  
+            if(coins == null || coins.length == 0) {  
+                return -1;  
+            }  
+            if(amount <=0) return 0;  
+            int[] dp = new int[amount+1];  
+            for(int i=1;i<dp.length; i++) {  
+                dp[i] = Integer.MAX_VALUE;  
+            }  
+            for(int am=1;am<=amount;am++) {  
+                for(int i=0;i<coins.length;i++) {  
+                    if(coins[i]<=am) {  
+                        int diff = am - coins[i];  
+                        if(dp[diff] != Integer.MAX_VALUE) {  
+                            dp[am] = Math.min(dp[diff] +1, dp[am]);  
+                        }  
+                    }     
+                }  
+            }  
+            return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];  
+        }  
 }
 
