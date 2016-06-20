@@ -1,5 +1,3 @@
-package backtracking;
-
 public class WordDictionary {
     private TrieNode root;
     
@@ -8,18 +6,21 @@ public class WordDictionary {
     }
     
     public void addWord(String word) {
-        TrieNode ws = root;
+        TrieNode node = root;
         for(int i = 0; i < word.length(); i++){
-            char c = word.charAt(i);
-            if(ws.children[c - 'a'] == null){
-                ws.children[c - 'a'] = new TrieNode();
+            int index = (int)(word.charAt(i) - 'a');
+            if(node.getChild(index) == null) {
+                node.createChild(index);
             }
-            ws = ws.children[c - 'a'];
+            node = node.getChild(index);
         }
-        ws.isWord = true;
+        node.isWord = true;
     }
 
     public boolean search(String word) {
+        if(word == null || word.isEmpty()) {
+            return false;
+        }
         return search(word, 0, root);
     }
     
@@ -29,14 +30,12 @@ public class WordDictionary {
             return false;
         } else if(index == word.length() - 1) {
             if(c != '.') {
-                TrieNode child = root.children[c - 'a'];
+                TrieNode child = root.getChild(c - 'a');
                 return child != null && child.isWord;
             } else {
                 for(int i = 0; i < 26; i++) {
-                    TrieNode child = root.children[i];
-                    if(child == null) {
-                        continue;
-                    } else if(child.isWord) {
+                    TrieNode child = root.getChild(i);
+                    if(child != null && child.isWord) {
                         return true;
                     }
                 }
@@ -46,19 +45,32 @@ public class WordDictionary {
         
         if(c == '.') {
             for(int i = 0; i < 26; i++) {
-                if(search(word, index+1, root.children[i])) {
+                if(search(word, index+1, root.getChild(i))) {
                     return true;
                 }
             }
             return false;
         } 
         
-        return search(word, index+1, root.children[c - 'a']);
+        return search(word, index+1, root.getChild(c - 'a'));
     }
     
     class TrieNode {
         public boolean isWord; 
-        public TrieNode[] children = new TrieNode[26];
-        public TrieNode() {}
+        public TrieNode[] children;
+        public TrieNode() {
+            isWord = false;
+            children = new TrieNode[26];
+        }
+        
+        public TrieNode getChild(int index) {
+            return children[index];
+        }
+        public TrieNode createChild(int index) {
+            if(getChild(index) == null) {
+                children[index] = new TrieNode();
+            }
+            return children[index];
+        }
     }
 }
