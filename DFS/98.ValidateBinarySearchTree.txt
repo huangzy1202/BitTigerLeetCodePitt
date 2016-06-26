@@ -1,0 +1,46 @@
+public class Solution {
+    public boolean isValidBST(TreeNode root) {
+       return isValidBST(root,  null, null);
+    }
+    
+    private boolean isValidBST(TreeNode root, Integer min, Integer max) {
+        if(root == null) return true;
+        if(max != null && min != null && max < min) return false; 
+        Boolean left = isValidBST(root.left, min, root.val);
+        if(!left) {
+            return false;
+        }
+        Boolean right = isValidBST(root.right, root.val, max);
+        Boolean num = true;
+        
+       if(max != null) {
+           if(root.val >= max) {
+               num = false;
+           }
+       }
+       
+       if(min != null) {
+           if(root.val <= min) {
+               num = false;
+           }
+       }
+        
+        return left && right && num;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+public class Solution {
+public boolean isValidBST(TreeNode root) {
+   return isValidBST(root,null,null);
+
+}
+private boolean isValidBST(TreeNode root, Integer max, Integer min){
+       if(root==null)   return true;
+       if(max!=null&&root.val>=max)
+         return false;
+       if(min!=null&&root.val<=min)
+         return false;
+       return isValidBST(root.left,root.val,min)&&isValidBST(root.right,max,root.val); 
+}
