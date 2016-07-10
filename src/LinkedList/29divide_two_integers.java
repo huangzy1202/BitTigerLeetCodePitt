@@ -11,6 +11,7 @@ public class Solution {
         long dvs = Math.abs((long) divisor);
         
         int res = 0;
+        //Time = O(logN)
         while(dvd >= dvs) {
             long tmp = dvs;
             long multiplier = 1;
@@ -18,14 +19,11 @@ public class Solution {
                 tmp <<= 1;
                 multiplier <<=1;
             }
-            System.out.println(tmp);
-            System.out.println(multiplier);
             dvd -= tmp;
             res += multiplier;
-            System.out.println(dvd);
-            System.out.println(res + "==");
         }
         
+        //TLE Time = O(N)
         // while(dvd >= dvs) {
         //     dvd -=dvs;
         //     res++;
